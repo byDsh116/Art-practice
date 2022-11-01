@@ -51,15 +51,17 @@ body{
 }
 
 .divider{
-    width: 330px;
-    height: 1px;
-    margin: 0 auto;
-    background-color:rgba(0,0,0,.5)
+    width: 342px;
+    height: 3px;
+    margin: 8px auto;
+    background-color: rgb(158 158 158 / 20%);
 }
 
 .title{ 
     font-size: 36px;
-    font-weight: 400
+    font-weight: 400;
+    padding: 15px;
+    
 }
 
 .header {
@@ -165,6 +167,7 @@ body{
 .tabcontent{
     width: 850px;
     position: relative;
+    height: 480px;
 }
 
 .tabcontent img{
@@ -189,19 +192,25 @@ body{
 }
 
 .tabcontent__descr{
-     color: rgb(0 0 0 / 84%);
+    color: rgb(0 0 0 / 84%);
     position: absolute;
-    top: 300px;
-    right: -177px;
+    top: 360px;
+    right: -277px;
     width: 550px;
-    height:359px;
+    height: 359px;
     background:rgba(221, 73, 5, 0.8);
-        padding:50px;
-        font-size:24px;
-        font-weight:300;line-height:36px;}
-    .tabheader{width: 280px;
+    padding:50px;
+    font-size:24px;
+    font-weight:300;
+    line-height:36px;
+}
+
+    .tabheader{
+        width: 280px;
         padding: 35px 30px;
-        background-color: #fff;}
+        background-color: #fff;
+    }
+    /* /////////////////// */
     .tabheader h3{font-weight:700;font-size:16px}
     .tabheader__items{margin-top:35px;padding-left:26px;border-left:1px solid #000}
     .tabheader__item{font-weight:700;font-size:18px;font-weight:300;margin-top:10px;color:rgba(0,0,0,.6);
@@ -211,11 +220,18 @@ body{
     .offer .container{display:flex;justify-content:space-between}
     .offer 
     .bgc_y{position:absolute;width:1109px;height:780px;background:rgba(243,255,222,.45);z-index:-1;top:50px}
-    .offer__text{width:580px}
+    .offer__text{width:520px}
     .offer__descr{font-size:18px;margin-top:30px;font-weight:300;line-height:24px}
     .offer__action{display:flex;align-items:center;justify-content:flex-end}
-    .offer__advantages{width:330px;margin-top:50px}
-    .offer__advantages h2{font-weight:700;font-size:20px;margin-top:20px}
+    .offer__advantages{
+        width:330px;
+        margin-top:20px;
+    }
+    .offer__advantages h2{
+        font-weight:700;
+        font-size:20px;
+        /* margin-top:20px; */
+    }
     .offer__advantages h2:first-child{margin-top:70px}
     .offer__advantages-text{margin-top:20px;font-size:18px;font-weight:300;line-height:21px}
     .offer__slider{width:650px;margin-top:50px;display:flex;flex-direction:column;align-items:flex-end}

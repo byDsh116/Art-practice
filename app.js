@@ -83,6 +83,76 @@ window.addEventListener('DOMContentLoaded', function () {
         }
     }
     window.addEventListener('scroll', showModalByScroll);
+
+    class MenuCard {
+        constructor(src, alt, title, descr, price, parentSelector,...classes) {
+            this.src = src
+            this.alt = alt
+            this.title = title
+            this.descr = descr
+            this.price = price
+            this.classes = classes
+            this.parent = document.querySelector(parentSelector)
+            this.transfer = 27 //???
+            this.change() //????
+        }
+
+        change() {  //?????
+            this.price = this.price * this.transfer  //?????
+            console.log(this.price)
+        }
+
+        render() {
+            const element = document.createElement('div')
+            if(this.classes.length === 0){
+                this.element = 'menu__item'
+                element.classList.add(this.element)
+            } else{
+                this.classes.forEach(className => element.classList.add(className))
+            }
+            element.innerHTML = `
+                        <div class="menu__item">
+                            <img src=${this.src} alt=${this.alt}> 
+                            <h3 class="menu__item-subtitle">${this.title}</h3>
+                            <div class="menu__item-descr">${this.descr}</div>
+                            <div class="menu__item-divider"></div>
+                            <div class="menu__item-price">
+                                <div class="menu__item-cost">Цена:</div>
+                                <div class="menu__item-total"><span>${this.price}</span> грн/день</div>
+                            </div>
+                        </div>
+    `
+            this.parent.append(element)
+        }
+    }
+
+new MenuCard(
+    'https://i.pinimg.com/236x/a3/e1/6c/a3e16c1a56c38868b5aac5e654fa9e22.jpg',
+    'im art',
+    'im title',
+    'im descr',
+    '4',
+    '.menu .container', 
+    'menu__item',
+    
+
+).render()
+
+new MenuCard(
+    'https://i.pinimg.com/236x/a3/e1/6c/a3e16c1a56c38868b5aac5e654fa9e22.jpg',
+    'im art',
+    'im title',
+    'im descr',
+    'im price',
+    '.menu .container', 
+    'menu__item',
+
+).render()
+
+
+
+
+
 });
 
 // TIMER 
@@ -90,11 +160,20 @@ window.addEventListener('DOMContentLoaded', function () {
 const deadLine = '2022-11-15'
 
 function getTimerRemaining(endTime) {
-    const t = Date.parse(endTime) - Date.parse(new Date()),
+    let days, hours, minutes, seconds
+    const t = Date.parse(endTime) - Date.parse(new Date())
+
+    if (t <= 0) {
+        days = 0
+        hours = 0
+        minutes = 0
+        seconds = 0
+    } else {
         days = Math.floor(t / (1000 * 60 * 60 * 24)),
-        hours = Math.floor((t / (1000 * 60 * 60) % 24)),
-        minutes = Math.floor((t / 1000 / 60) % 60),
-        seconds = Math.floor((t / 1000) % 60);
+            hours = Math.floor((t / (1000 * 60 * 60) % 24)),
+            minutes = Math.floor((t / 1000 / 60) % 60),
+            seconds = Math.floor((t / 1000) % 60);
+    }
 
     return {
         'total': t,
@@ -139,3 +218,4 @@ function setClock(selector, endtime) {
 }
 
 setClock('.timer', deadLine)
+
