@@ -127,10 +127,10 @@ window.addEventListener('DOMContentLoaded', function () {
     }
 
 new MenuCard(
-    'https://i.pinimg.com/236x/a3/e1/6c/a3e16c1a56c38868b5aac5e654fa9e22.jpg',
-    'im art',
-    'im title',
-    'im descr',
+    'https://avatars.mds.yandex.net/get-mpic/4420830/img_id4944321220846543068.jpeg/orig',
+    'painting',
+    'Живопись',
+    'Собрание картин от классики до современного искусства',
     '4',
     '.menu .container', 
     'menu__item',
@@ -139,10 +139,10 @@ new MenuCard(
 ).render()
 
 new MenuCard(
-    'https://i.pinimg.com/236x/a3/e1/6c/a3e16c1a56c38868b5aac5e654fa9e22.jpg',
-    'im art',
-    'im title',
-    'im descr',
+    'https://i.pinimg.com/236x/5e/99/46/5e9946a28f551beb610db5be0b856bc7.jpg',
+    'architecture',
+    'Архитектура',
+    '',
     'im price',
     '.menu .container', 
     'menu__item',
@@ -150,6 +150,17 @@ new MenuCard(
 ).render()
 
 
+new MenuCard(
+    'https://i.pinimg.com/236x/a3/e1/6c/a3e16c1a56c38868b5aac5e654fa9e22.jpg',
+    'im art',
+    'Арты на основе классики',
+    'im descr',
+    '4',
+    '.menu .container', 
+    'menu__item',
+    
+
+).render()
 
 
 
@@ -218,4 +229,7 @@ function setClock(selector, endtime) {
 }
 
 setClock('.timer', deadLine)
+
+
+// forms 
 
