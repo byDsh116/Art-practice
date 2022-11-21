@@ -85,7 +85,7 @@ window.addEventListener('DOMContentLoaded', function () {
     window.addEventListener('scroll', showModalByScroll);
 
     class MenuCard {
-        constructor(src, alt, title, descr, price, parentSelector,...classes) {
+        constructor(src, alt, title, descr, price, parentSelector, ...classes) {
             this.src = src
             this.alt = alt
             this.title = title
@@ -99,15 +99,14 @@ window.addEventListener('DOMContentLoaded', function () {
 
         change() {  //?????
             this.price = this.price * this.transfer  //?????
-            console.log(this.price)
         }
 
         render() {
             const element = document.createElement('div')
-            if(this.classes.length === 0){
+            if (this.classes.length === 0) {
                 this.element = 'menu__item'
                 element.classList.add(this.element)
-            } else{
+            } else {
                 this.classes.forEach(className => element.classList.add(className))
             }
             element.innerHTML = `
@@ -126,41 +125,41 @@ window.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-new MenuCard(
-    'https://avatars.mds.yandex.net/get-mpic/4420830/img_id4944321220846543068.jpeg/orig',
-    'painting',
-    'Живопись',
-    'Собрание картин от классики до современного искусства',
-    '4',
-    '.menu .container', 
-    'menu__item',
-    
-
-).render()
-
-new MenuCard(
-    'https://i.pinimg.com/236x/5e/99/46/5e9946a28f551beb610db5be0b856bc7.jpg',
-    'architecture',
-    'Архитектура',
-    '',
-    'im price',
-    '.menu .container', 
-    'menu__item',
-
-).render()
+    new MenuCard(
+        'https://avatars.mds.yandex.net/get-mpic/4420830/img_id4944321220846543068.jpeg/orig',
+        'painting',
+        'Живопись',
+        'Собрание картин от классики до современного искусства',
+        '4',
+        '.menu .container',
+        'menu__item',
 
 
-new MenuCard(
-    'https://i.pinimg.com/236x/a3/e1/6c/a3e16c1a56c38868b5aac5e654fa9e22.jpg',
-    'im art',
-    'Арты на основе классики',
-    'im descr',
-    '4',
-    '.menu .container', 
-    'menu__item',
-    
+    ).render()
 
-).render()
+    new MenuCard(
+        'https://i.pinimg.com/236x/5e/99/46/5e9946a28f551beb610db5be0b856bc7.jpg',
+        'architecture',
+        'Архитектура',
+        '',
+        'im price',
+        '.menu .container',
+        'menu__item',
+
+    ).render()
+
+
+    new MenuCard(
+        'https://i.pinimg.com/236x/a3/e1/6c/a3e16c1a56c38868b5aac5e654fa9e22.jpg',
+        'im art',
+        'Арты на основе классики',
+        'im descr',
+        '4',
+        '.menu .container',
+        'menu__item',
+
+
+    ).render()
 
 
 
@@ -230,6 +229,137 @@ function setClock(selector, endtime) {
 
 setClock('.timer', deadLine)
 
+// Forms
 
-// forms 
+const forms = document.querySelectorAll('form');
+const message = {
+    loading: 'img/form/spinner.svg',
+    success: 'Спасибо! Скоро мы с вами свяжемся',
+    failure: 'Что-то пошло не так...'
+};
 
+forms.forEach(item => {
+    bindPostData(item);
+});
+
+const postData = async (url, data) => {
+    let res = await fetch(url, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: data
+    });
+
+    return await res.json();
+};
+
+async function getResource(url) {
+    let res = await fetch(url);
+
+    if (!res.ok) {
+        throw new Error(`Could not fetch ${url}, status: ${res.status}`);
+    }
+
+    return await res.json();
+}
+
+function bindPostData(form) {
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        let statusMessage = document.createElement('img');
+        statusMessage.src = message.loading;
+        statusMessage.style.cssText = `
+            display: block;
+            margin: 0 auto;
+        `;
+        form.insertAdjacentElement('afterend', statusMessage);
+    
+        const formData = new FormData(form);
+
+        const json = JSON.stringify(Object.fromEntries(formData.entries()));
+
+        postData('http://localhost:3000/requests', json)
+        .then(data => {
+            console.log(data);
+            showThanksModal(message.success);
+            statusMessage.remove();
+        }).catch(() => {
+            showThanksModal(message.failure);
+        }).finally(() => {
+            form.reset();
+        });
+    });
+}
+
+function showThanksModal(message) {
+    const prevModalDialog = document.querySelector('.modal__dialog');
+
+    prevModalDialog.classList.add('hide');
+    openModal();
+
+    const thanksModal = document.createElement('div');
+    thanksModal.classList.add('modal__dialog');
+    thanksModal.innerHTML = `
+        <div class="modal__content">
+            <div class="modal__close" data-close>×</div>
+            <div class="modal__title">${message}</div>
+        </div>
+    `;
+    document.querySelector('.modal').append(thanksModal);
+    setTimeout(() => {
+        thanksModal.remove();
+        prevModalDialog.classList.add('show');
+        prevModalDialog.classList.remove('hide');
+        closeModal();
+    }, 4000);
+}
+
+// Slider
+
+let slideIndex = 1;
+const slides = document.querySelectorAll('.offer__slide'),
+    prev = document.querySelector('.offer__slider-prev'),
+    next = document.querySelector('.offer__slider-next'),
+    total = document.querySelector('#total'),
+    current = document.querySelector('#current');
+
+showSlides(slideIndex);
+
+if (slides.length < 10) {
+    total.textContent = `0${slides.length}`;
+} else {
+    total.textContent = slides.length;
+}
+
+function showSlides(n) {
+    if (n > slides.length) {
+        slideIndex = 1;
+    }
+    if (n < 1) {
+        slideIndex = slides.length;
+    }
+
+    slides.forEach((item) => item.style.display = 'none');
+
+    slides[slideIndex - 1].style.display = 'block'; // Как ваша самостоятельная работа - переписать на использование классов show/hide
+    
+    if (slides.length < 10) {
+        current.textContent =  `0${slideIndex}`;
+    } else {
+        current.textContent =  slideIndex;
+    }
+}
+
+function plusSlides (n) {
+    showSlides(slideIndex += n);
+}
+
+prev.addEventListener('click', function(){
+    plusSlides(-1);
+});
+
+next.addEventListener('click', function(){
+    plusSlides(1);
+});
