@@ -36,6 +36,67 @@ window.addEventListener('DOMContentLoaded', function () {
             })
         }
     })
+    const deadLine = '2022-12-15'
+
+    function getTimerRemaining(endTime) {
+        let days, hours, minutes, seconds
+        const t = Date.parse(endTime) - Date.parse(new Date())
+
+        if (t <= 0) {
+            days = 0
+            hours = 0
+            minutes = 0
+            seconds = 0
+        } else {
+            days = Math.floor(t / (1000 * 60 * 60 * 24)),
+                hours = Math.floor((t / (1000 * 60 * 60) % 24)),
+                minutes = Math.floor((t / 1000 / 60) % 60),
+                seconds = Math.floor((t / 1000) % 60);
+        }
+
+        return {
+            'total': t,
+            'days': days,
+            'hours': hours,
+            'minutes': minutes,
+            'seconds': seconds
+        }
+    }
+
+    function getZero(num) {
+        if (num >= 0 && num < 10) {
+            return `0${num}`
+        } else {
+            return num
+        }
+    }
+
+    function setClock(selector, endtime) {
+        const timer = document.querySelector(selector),
+            days = document.querySelector('#days'),
+            hours = document.querySelector('#hours'),
+            minutes = document.querySelector('#minutes'),
+            seconds = document.querySelector('#seconds'),
+            timeInterval = setInterval(updateClock, 1000)
+
+        updateClock()
+
+        function updateClock() {
+            const t = getTimerRemaining(endtime)
+
+            days.innerHTML = getZero(t.days)
+            hours.innerHTML = getZero(t.hours)
+            minutes.innerHTML = getZero(t.minutes)
+            seconds.innerHTML = getZero(t.seconds)
+
+            if (t.total <= 0) {
+                clearInterval(timeInterval)
+            }
+
+        }
+    }
+
+    setClock('.timer', deadLine)
 
     // Modal
 
@@ -167,67 +228,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
     // TIMER 
 
-    const deadLine = '2022-12-15'
 
-    function getTimerRemaining(endTime) {
-        let days, hours, minutes, seconds
-        const t = Date.parse(endTime) - Date.parse(new Date())
-
-        if (t <= 0) {
-            days = 0
-            hours = 0
-            minutes = 0
-            seconds = 0
-        } else {
-            days = Math.floor(t / (1000 * 60 * 60 * 24)),
-                hours = Math.floor((t / (1000 * 60 * 60) % 24)),
-                minutes = Math.floor((t / 1000 / 60) % 60),
-                seconds = Math.floor((t / 1000) % 60);
-        }
-
-        return {
-            'total': t,
-            'days': days,
-            'hours': hours,
-            'minutes': minutes,
-            'seconds': seconds
-        }
-    }
-
-    function getZero(num) {
-        if (num >= 0 && num < 10) {
-            return `0${num}`
-        } else {
-            return num
-        }
-    }
-
-    function setClock(selector, endtime) {
-        const timer = document.querySelector(selector),
-            days = document.querySelector('#days'),
-            hours = document.querySelector('#hours'),
-            minutes = document.querySelector('#minutes'),
-            seconds = document.querySelector('#seconds'),
-            timeInterval = setInterval(updateClock, 1000)
-
-        updateClock()
-
-        function updateClock() {
-            const t = getTimerRemaining(endtime)
-
-            days.innerHTML = getZero(t.days)
-            hours.innerHTML = getZero(t.hours)
-            minutes.innerHTML = getZero(t.minutes)
-            seconds.innerHTML = getZero(t.seconds)
-
-            if (t.total <= 0) {
-                clearInterval(timeInterval)
-            }
-
-        }
-    }
-
-    setClock('.timer', deadLine)
 
     // Forms
 
@@ -319,4 +320,52 @@ window.addEventListener('DOMContentLoaded', function () {
     fetch('http://localhost:3000/menu')
         .then(data => data.json())
         .then(res => console.log(res))
+
+    // slider
+
+    let slideIndex = 1;
+    const slides = document.querySelectorAll('.offer__slide'),
+        prev = document.querySelector('.offer__slider-prev'),
+        next = document.querySelector('.offer__slider-next'),
+        total = document.querySelector('#total'),
+        current = document.querySelector('#current');
+    showSlides(slideIndex);
+
+    if (slides.length < 10) {
+        total.textContent = `0${slides.length}`;
+    } else {
+        total.textContent = slides.length;
+    }
+
+    function showSlides(n) {
+        if (n > slides.length) {
+            slideIndex = 1;
+        }
+        if (n < 1) {
+            slideIndex = slides.length;
+        }
+        slides.forEach((item) => item.style.display = 'none');
+
+        slides[slideIndex - 1].style.display = 'block'; 
+        
+        if (slides.length < 10) {
+            current.textContent =  `0${slideIndex}`;
+        } else {
+            current.textContent =  slideIndex;
+        }
+    }
+    
+    function plusSlides (n) {
+        showSlides(slideIndex += n);
+    }
+
+    prev.addEventListener('click', function(){
+        plusSlides(-1);
+    });
+        next.addEventListener('click', function(){
+            plusSlides(1);
+        });
+    
+    
 });
+
