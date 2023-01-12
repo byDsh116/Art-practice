@@ -380,13 +380,22 @@ window.addEventListener('DOMContentLoaded', function () {
         opacity: .5;
         transition: opacity .6s ease;
         `
-        if (i == 0) { //why? что б ограничить доступ к 0му элементу
+        if (i == 0) { // ограничить доступ к 0му элементу
             dot.style.opacity = 1
         }
         indicators.append(dot)
         dots.push(dot)
     }
 
+    const getOffset = (isForward) => {
+
+        if (isForward) {
+            return +width.replace(/\D/g, '') * (slides.length - 1)
+        } else {
+          return +width.replace(/\D/g, '')
+        }
+    }
+    
     next.addEventListener('click', () => {
         if (offset == (getOffset(true))) {
             offset = 0
@@ -456,14 +465,6 @@ window.addEventListener('DOMContentLoaded', function () {
         })
     })
 
-    const getOffset = (isForward) => {
-
-        if (isForward) {
-            return +width.slice(0, width.length - 2) * (slides.length - 1)
-        } else {
-          return +width.slice(0, width.length - 2)
-        }
-    }
 });
 
 
