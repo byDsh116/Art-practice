@@ -8,7 +8,7 @@ import slider from './modules/slider'
 window.addEventListener('DOMContentLoaded', function () {
     const modalTimerId = setTimeout(() => openModal('.modal'), 3000);
 
-    tabs('.tabheader__item', '.tabcontent', '.tabheader__items', 'tabheader__item_active' )
+    tabs('.tabheader__item', '.tabcontent', '.tabheader__items', 'tabheader__item_active')
     cards()
     forms('form', modalTimerId)
     modal('[data-modal]', '.modal', modalTimerId)
