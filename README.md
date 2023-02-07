@@ -1,0 +1,1 @@
+![screen](https://github.com/byDsh116/Art_proj/blob/main/assets/slider-preview.png?raw=true)
